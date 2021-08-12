@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar,
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import AppTextInput from "../components/common/AppTextInput"
 import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { Restart } from "fiction-expo-restart"
 
 // components
@@ -46,31 +46,22 @@ function HomeScreen(props) {
         props.navigation.navigate('SearchPostsScreen', { filterProducts: allPosts })
     }
 
-    const handleLogout = async () => {
-        try {
-            await AsyncStorage.removeItem('user');
-            Restart()
-        } catch (error) {
-
-        }
-    }
-
     return (
         <ScrollView style={{ flex: 1, width: "100%", backgroundColor: Colors.white }} >
             <LoadingModal show={activityIndic} />
             <View style={{ width: "100%", height: RFPercentage(26), backgroundColor: Colors.white, justifyContent: 'center', alignItems: 'center' }} >
-                <LinearGradient colors={[Colors.primaryLight, Colors.primary]} start={[0.1, 0.7]} end={[1, 0.2]}  >
+                <LinearGradient colors={[Colors.primaryLight, Colors.primary]} start={[0.1, 1.2]} end={[1.2, 0.9]}  >
                     <StatusBar style="light" barStyle="light-content"
                         translucent={true}
                         backgroundColor="transparent" />
                 </LinearGradient>
 
                 <LinearGradient colors={[Colors.primaryLight, Colors.primary]} start={[0.1, 1.2]} end={[1.2, 0.9]} style={{ width: width, flex: 1, borderBottomLeftRadius: RFPercentage(5), borderBottomRightRadius: RFPercentage(5), flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly' }} >
-                    <TouchableOpacity onPress={() => handleLogout()} style={{ position: "absolute", top: RFPercentage(4), left: RFPercentage(2.5) }} >
-                        <MaterialIcons name="logout" style={{ transform: [{ scaleX: -1 }] }} size={RFPercentage(3)} color={Colors.white} />
+                    <TouchableOpacity onPress={() => props.navigation.openDrawer()} style={{ position: "absolute", top: RFPercentage(4), left: RFPercentage(2.5) }} >
+                        <AntDesign name="menuunfold" style={{ transform: [{ scaleX: -1 }] }} size={RFPercentage(3)} color={Colors.white} />
                     </TouchableOpacity>
 
-                    <Image source={logo} width={RFPercentage(10)} height={RFPercentage(10)} style={{ marginBottom: RFPercentage(-2), width: RFPercentage(16), height: RFPercentage(10) }} />
+                    <Image source={logo} width={RFPercentage(15)} height={RFPercentage(10)} style={{ marginBottom: RFPercentage(-2), width: RFPercentage(20), height: RFPercentage(10) }} />
 
                     <View style={{ width: "90%", justifyContent: 'flex-start', alignItems: 'center', marginBottom: RFPercentage(-1), }} >
                         <AppTextInput

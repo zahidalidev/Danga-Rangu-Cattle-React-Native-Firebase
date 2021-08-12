@@ -26,7 +26,7 @@ function AppTextInput({ backgroundColor = Colors.lightGrey, autoFocus = false, e
                     </TouchableOpacity>
                     : null
                 }
-                <TextInput style={{ color: Colors.black, padding: rightIcon ? 0 : RFPercentage(1), width: icon ? "95%" : "100%", fontSize: RFPercentage(2.2) }}
+                <TextInput style={{ color: Colors.black, padding: rightIcon ? 0 : RFPercentage(1), width: icon ? "85%" : "90%", fontSize: RFPercentage(2.2) }}
                     placeholder={placeHolder}
                     placeholderTextColor={Colors.mediumGrey}
                     value={value}

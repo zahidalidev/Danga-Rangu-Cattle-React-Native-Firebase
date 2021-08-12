@@ -70,7 +70,7 @@ function Login(props) {
         try {
             let res = await AsyncStorage.getItem('user');
             if (res) {
-                props.navigation.navigate('HomeScreen')
+                props.navigation.navigate('DrawerApp')
                 return;
             }
             props.navigation.navigate('LoginScreen');

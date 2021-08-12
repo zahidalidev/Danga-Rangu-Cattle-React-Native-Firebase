@@ -104,7 +104,7 @@ function Index(props) {
                         </View>
 
                         {/* Login and Sign Up Container */}
-                        <View style={{ marginTop: RFPercentage(4), justifyContent: "center", alignItems: "center", }} >
+                        <View style={{ marginBottom: RFPercentage(3), marginTop: RFPercentage(4), justifyContent: "center", alignItems: "center", }} >
                             {
                                 active == 0 ? <Login {...props} /> :
                                     <SignUp onPressHandle={() => { setActive(0); handleSlide(xTabOne) }}  {...props} />

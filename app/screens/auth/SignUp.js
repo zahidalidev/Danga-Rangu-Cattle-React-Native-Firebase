@@ -78,7 +78,8 @@ function SignUp({ onPressHandle }) {
             email,
             phoneNumber,
             address,
-            password
+            password,
+            role: "user"
         }
         try {
             showIndicator(true)

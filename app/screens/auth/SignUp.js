@@ -23,21 +23,40 @@ function SignUp({ onPressHandle }) {
             placeHolder: "Enter your Name",
             value: '',
             secure: false,
-            icon: "email-outline"
+            icon: "user",
+            iconType: "Feather"
         },
         {
             id: 1,
             placeHolder: "Enter your e-mail",
             value: '',
             secure: false,
-            icon: "email-outline"
+            icon: "email-outline",
+            iconType: "MaterialCommunityIcons"
         },
         {
             id: 2,
+            placeHolder: "Enter your phone number",
+            value: '',
+            secure: false,
+            icon: "phone",
+            iconType: "Feather"
+        },
+        {
+            id: 3,
+            placeHolder: "Enter your address",
+            value: '',
+            secure: false,
+            icon: "map-marker-outline",
+            iconType: "MaterialCommunityIcons"
+        },
+        {
+            id: 4,
             placeHolder: "Create your password",
             value: '',
             secure: true,
-            icon: "lock-outline"
+            icon: "lock-outline",
+            iconType: "MaterialCommunityIcons"
         },
     ]);
 
@@ -94,12 +113,13 @@ function SignUp({ onPressHandle }) {
                         onChange={(text) => handleChange(text, item.id)}
                         secure={item.secure}
                         icon={item.icon}
+                        iconType={item.iconType}
                     />
                 </View>
             )}
 
             {/* Login button */}
-            <View style={{ width: "100%", marginTop: RFPercentage(5), justifyContent: 'center', alignItems: 'center' }} >
+            <View style={{ marginBottom: RFPercentage(2), width: "100%", marginTop: RFPercentage(5), justifyContent: 'center', alignItems: 'center' }} >
                 <AppTextButton
                     name="Signup"
                     onSubmit={() => handleSubmit()}
@@ -113,6 +133,8 @@ function SignUp({ onPressHandle }) {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: RFPercentage(12),
+        marginBottom: RFPercentage(30),
         flex: 1,
         width: "90%",
         justifyContent: "center",

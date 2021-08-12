@@ -109,7 +109,7 @@ function Index(props) {
                                 {initialComponent === 0 ? <Login {...props} /> : <SignUp onPressHandle={() => { setActive(0); handleSlide(xTabOne) }}  {...props} />}
                             </Animated.View>
 
-                            <Animated.View style={{ marginTop: RFPercentage(-24), justifyContent: "center", alignItems: "center", transform: [{ translateX: translateXTabTwo }, { translateY: -translateY / 2 }] }}>
+                            <Animated.View style={{ marginTop: RFPercentage(-77), justifyContent: "center", alignItems: "center", transform: [{ translateX: translateXTabTwo }, { translateY: (-translateY / 2) + RFPercentage(30) }] }}>
                                 <Login {...props} />
                             </Animated.View>
                         </View>

@@ -69,10 +69,15 @@ function SignUp({ onPressHandle }) {
     const handleSubmit = async () => {
         const name = feilds[0].value.trim();
         const email = feilds[1].value.trim().toLowerCase();
-        const password = feilds[2].value.trim();
+        const phoneNumber = feilds[2].value.trim();
+        const address = feilds[3].value.trim();
+        const password = feilds[4].value.trim();
+
         const body = {
             name,
             email,
+            phoneNumber,
+            address,
             password
         }
         try {
@@ -133,8 +138,8 @@ function SignUp({ onPressHandle }) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: RFPercentage(12),
-        marginBottom: RFPercentage(30),
+        // marginTop: RFPercentage(12),
+        // marginBottom: RFPercentage(30),
         flex: 1,
         width: "90%",
         justifyContent: "center",

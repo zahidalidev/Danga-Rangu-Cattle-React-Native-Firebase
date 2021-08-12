@@ -104,14 +104,12 @@ function Index(props) {
                         </View>
 
                         {/* Login and Sign Up Container */}
-                        <View style={{ marginTop: RFPercentage(4) }} >
-                            <Animated.View style={{ justifyContent: "center", alignItems: "center", transform: [{ translateX: translateXTabOne }] }} onLayout={event => setTranslateY(event.nativeEvent.layout.height)}>
-                                {initialComponent === 0 ? <Login {...props} /> : <SignUp onPressHandle={() => { setActive(0); handleSlide(xTabOne) }}  {...props} />}
-                            </Animated.View>
+                        <View style={{ marginTop: RFPercentage(4), justifyContent: "center", alignItems: "center", }} >
+                            {
+                                active == 0 ? <Login {...props} /> :
+                                    <SignUp onPressHandle={() => { setActive(0); handleSlide(xTabOne) }}  {...props} />
+                            }
 
-                            <Animated.View style={{ marginTop: RFPercentage(-77), justifyContent: "center", alignItems: "center", transform: [{ translateX: translateXTabTwo }, { translateY: (-translateY / 2) + RFPercentage(30) }] }}>
-                                <Login {...props} />
-                            </Animated.View>
                         </View>
                     </ScrollView>
                 </View>

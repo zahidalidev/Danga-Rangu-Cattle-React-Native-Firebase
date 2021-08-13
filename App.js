@@ -13,6 +13,10 @@ import AddCattle from './app/screens/AddCattle';
 import CattleDetailsScreen from './app/screens/CattleDetailsScreen';
 import AllFarms from './app/screens/AllFarms';
 
+// admin screens
+import AdminAllFarms from './app/screens/admin/AdminAllFarms';
+import AdminAllUsers from './app/screens/admin/AdminAllUsers';
+
 // components
 import AppDrawer from './app/components/AppDrawer';
 import Colors from './app/config/Colors';
@@ -37,6 +41,8 @@ export default function App() {
     <Stack.Screen name="AddCattle" component={AddCattle} />
     <Stack.Screen name="CattleDetailsScreen" component={CattleDetailsScreen} />
     <Stack.Screen name="AllFarms" component={AllFarms} />
+    <Stack.Screen name="AdminAllFarms" component={AdminAllFarms} />
+    <Stack.Screen name="AdminAllUsers" component={AdminAllUsers} />
   </Drawer.Navigator>
 
   return (

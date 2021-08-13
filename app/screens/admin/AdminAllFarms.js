@@ -5,30 +5,27 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Appbar } from 'react-native-paper';
 
 // components
-import FarmCard from '../components/FarmCard';
-import LoadingModal from '../components/common/LoadingModal';
+import FarmCard from '../../components/FarmCard';
+import LoadingModal from '../../components/common/LoadingModal';
 
 // config
-import Colors from '../config/Colors';
+import Colors from '../../config/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getFarmById, getFarmRef, removeFarm } from '../services/FarmServices';
-import { getCattleByFarm } from '../services/CattleServices';
+import { getAllFarms, getFarmRef, removeFarm } from '../../services/FarmServices';
+import { getCattleByFarm } from '../../services/CattleServices';
 
-function AllFarms(props) {
+function AdminAllFarms(props) {
     const [activityIndic, setActivityIndic] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [allFarms, setAllFarms] = useState([]);
 
     const getFarms = async () => {
         try {
-            let user = await AsyncStorage.getItem("user");
-            user = JSON.parse(user);
-
             const farmRef = getFarmRef();
             farmRef.onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(async (change) => {
 
-                    let res = await getFarmById(user.id);
+                    let res = await getAllFarms();
                     if (res.length === 0 || res === false) {
                         setAllFarms([])
                         return;
@@ -69,18 +66,6 @@ function AllFarms(props) {
     }
 
     const getFarmCattle = async (farmId) => {
-        try {
-            let user = await AsyncStorage.getItem("user");
-            user = JSON.parse(user);
-            let res = await getCattleByFarm(user.id, farmId)
-            if (!res) {
-                alert("No Cattle found!")
-                return;
-            }
-            props.navigation.navigate('SearchPostsScreen', { filterProducts: res })
-        } catch (error) {
-            console.log("farm Cattles getting Error: ",)
-        }
     }
 
     return (
@@ -88,7 +73,7 @@ function AllFarms(props) {
             <StatusBar style="light" backgroundColor={Colors.primary} />
             <Appbar.Header style={{ backgroundColor: Colors.primary, width: "100%", justifyContent: "space-between" }} >
                 <Appbar.BackAction color={Colors.white} onPress={() => props.navigation.navigate('HomeScreen')} />
-                <Appbar.Content color={Colors.white} title="My Farms" />
+                <Appbar.Content color={Colors.white} title="All Farms" />
                 {/* <Appbar.Action color={Colors.white} icon="account-circle" onPress={() => { }} /> */}
             </Appbar.Header>
 
@@ -123,4 +108,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default AllFarms;
+export default AdminAllFarms;

@@ -26,6 +26,36 @@ export const loginUser = async (email, password) => {
     return res
 }
 
+export const getAllUsers = async () => {
+    const snapshot = await userRef.where('role', '==', "user").get();
+    if (snapshot.empty) {
+        return false;
+    }
+
+    let res = []
+    snapshot.forEach(doc => {
+        let tempRes = doc.data()
+        tempRes.docId = doc.id
+        res.push(tempRes)
+    });
+
+    return res;
+}
+
+export const getUserRef = () => {
+    return userRef;
+}
+
+export const removeUser = async (id) => {
+    try {
+        await userRef.doc(id).delete();
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
+
 export const AddUser = async (body) => {
     const snapshot = await userRef.where('email', '==', body.email).get();
     if (!snapshot.empty) {

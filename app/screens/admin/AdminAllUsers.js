@@ -5,42 +5,38 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Appbar } from 'react-native-paper';
 
 // components
-import FarmCard from '../components/FarmCard';
-import LoadingModal from '../components/common/LoadingModal';
+import FarmCard from '../../components/FarmCard';
+import LoadingModal from '../../components/common/LoadingModal';
+
+// services
+import { getAllUsers, getUserRef, removeUser } from '../../services/UserServices';
 
 // config
-import Colors from '../config/Colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getFarmById, getFarmRef, removeFarm } from '../services/FarmServices';
-import { getCattleByFarm } from '../services/CattleServices';
+import Colors from '../../config/Colors';
+import UserCard from '../../components/UserCard';
 
-function AllFarms(props) {
+function AdminAllUsers(props) {
     const [activityIndic, setActivityIndic] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [allFarms, setAllFarms] = useState([]);
 
     const getFarms = async () => {
         try {
-            let user = await AsyncStorage.getItem("user");
-            user = JSON.parse(user);
-
-            const farmRef = getFarmRef();
+            const farmRef = getUserRef();
             farmRef.onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(async (change) => {
-
-                    let res = await getFarmById(user.id);
+                    let res = await getAllUsers();
                     if (res.length === 0 || res === false) {
                         setAllFarms([])
                         return;
                     }
-
                     setAllFarms(res)
                 })
             })
 
         } catch (error) {
             setAllFarms([]);
-            console.log("All Farms: ", error)
+            console.log("All Users: ", error)
         }
     }
 
@@ -58,8 +54,8 @@ function AllFarms(props) {
     const deleteFarm = async (id) => {
         try {
             setActivityIndic(true)
-            await removeFarm(id);
-            alert("Farm Deleted")
+            await removeUser(id);
+            alert("User Deleted")
             setActivityIndic(false)
         } catch (error) {
             alert(`Something went wrong`)
@@ -69,18 +65,6 @@ function AllFarms(props) {
     }
 
     const getFarmCattle = async (farmId) => {
-        try {
-            let user = await AsyncStorage.getItem("user");
-            user = JSON.parse(user);
-            let res = await getCattleByFarm(user.id, farmId)
-            if (!res) {
-                alert("No Cattle found!")
-                return;
-            }
-            props.navigation.navigate('SearchPostsScreen', { filterProducts: res })
-        } catch (error) {
-            console.log("farm Cattles getting Error: ",)
-        }
     }
 
     return (
@@ -88,7 +72,7 @@ function AllFarms(props) {
             <StatusBar style="light" backgroundColor={Colors.primary} />
             <Appbar.Header style={{ backgroundColor: Colors.primary, width: "100%", justifyContent: "space-between" }} >
                 <Appbar.BackAction color={Colors.white} onPress={() => props.navigation.navigate('HomeScreen')} />
-                <Appbar.Content color={Colors.white} title="My Farms" />
+                <Appbar.Content color={Colors.white} title="All Users" />
                 {/* <Appbar.Action color={Colors.white} icon="account-circle" onPress={() => { }} /> */}
             </Appbar.Header>
 
@@ -96,17 +80,15 @@ function AllFarms(props) {
 
             <ScrollView style={{ backgroundColor: Colors.white }} >
                 <View style={styles.container}>
-                    {/* Bottom Contaienr */}
+                    {/* Products */}
                     <View style={{ flexDirection: 'column', marginTop: RFPercentage(2), borderTopLeftRadius: RFPercentage(8), backgroundColor: Colors.white, width: "100%", flex: 1.8, alignItems: 'center', justifyContent: 'center' }} >
-                        {/* Products */}
                         <View style={{ marginBottom: RFPercentage(4), flexDirection: 'column', backgroundColor: Colors.white, width: "100%", flex: 1.8, alignItems: 'center', justifyContent: 'center' }} >
                             {allFarms.length === 0 ? <Text style={{ fontSize: RFPercentage(3), color: Colors.mediumGrey, marginTop: RFPercentage(5) }} >No Farm Found!</Text> :
                                 allFarms.map((item, index) => (
-                                    <FarmCard handleFarmCattle={(id) => getFarmCattle(id)} handleDeleteFarm={(id) => deleteFarm(id)} item={item} key={index} index={index} />
+                                    <UserCard handleFarmCattle={(id) => getFarmCattle(id)} handleDeleteFarm={(id) => deleteFarm(id)} item={item} key={index} index={index} />
                                 ))}
                         </View>
                     </View>
-
                 </View>
             </ScrollView>
         </>
@@ -123,4 +105,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default AllFarms;
+export default AdminAllUsers;

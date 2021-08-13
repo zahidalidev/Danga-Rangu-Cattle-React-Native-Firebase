@@ -19,7 +19,7 @@ function FarmCard({ index, item, handleDeleteFarm, handleFarmCattle }) {
                 <View style={{ alignItems: "flex-start", flexDirection: "row", width: "100%", justifyContent: "flex-start" }} >
                     <Text numberOfLines={1} style={{ width: "33%", fontSize: RFPercentage(1.7), fontFamily: "sans-serif-medium" }} >Farm Address</Text>
                     <View style={{ width: "68%", justifyContent: "flex-start" }} >
-                        <Text numberOfLines={2} style={{ alignSelf: "flex-start", fontSize: RFPercentage(1.7), fontFamily: "sans-serif-medium", color: Colors.mediumGrey }} >{item.farmAddress + item.farmAddress + item.farmAddress}</Text>
+                        <Text numberOfLines={2} style={{ alignSelf: "flex-start", fontSize: RFPercentage(1.7), fontFamily: "sans-serif-medium", color: Colors.mediumGrey }} >{item.farmAddress}</Text>
                     </View>
                 </View>
                 <View style={{ alignItems: "flex-start", flexDirection: "row", width: "100%", justifyContent: "flex-start" }} >

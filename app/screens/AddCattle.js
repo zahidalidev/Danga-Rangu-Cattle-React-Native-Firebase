@@ -391,7 +391,7 @@ function AddCattle(props) {
                     {/* Login button */}
                     <View style={{ marginBottom: RFPercentage(4), width: "90%", marginTop: RFPercentage(5), justifyContent: 'center', alignItems: 'center' }} >
                         <AppTextButton
-                            name="Add Farm"
+                            name="Add Cattle"
                             onSubmit={() => handleSubmit()}
                             backgroundColor={Colors.primary}
                             width="80%"

@@ -63,17 +63,17 @@ function AppDrawer({ navigation }) {
                 <>
                     <Drawer.Item
                         label="All Users"
-                        icon="user"
+                        icon="account-group"
                         onPress={() => {
-                            navigation.navigate("HomeScreen")
+                            navigation.navigate("AdminAllUsers")
                         }}
                     />
 
                     <Drawer.Item
-                        label="My Farms"
+                        label="All Farms"
                         icon="warehouse"
                         onPress={() => {
-                            navigation.navigate("AllFarms")
+                            navigation.navigate("AdminAllFarms")
                         }}
                     />
                 </> :

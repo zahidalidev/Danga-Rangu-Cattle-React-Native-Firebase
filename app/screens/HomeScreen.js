@@ -37,6 +37,10 @@ function HomeScreen(props) {
                 querySnapshot.docChanges().forEach(async (change) => {
 
                     let res = await getCattleById(user.id);
+                    if (!res) {
+                        setAllCattles([]);
+                        return;
+                    }
                     setAllCattles(res)
                 })
             })
@@ -91,9 +95,10 @@ function HomeScreen(props) {
             <View style={styles.container}>
                 {/* Bottom Contaienr */}
                 <View style={{ marginBottom: RFPercentage(4), flexDirection: 'column', backgroundColor: Colors.white, width: "100%", flex: 1.8, alignItems: 'center', justifyContent: 'center' }} >
-                    {allCattles.map((item, index) => (
-                        <Card props={props} item={item} key={index} index={index} />
-                    ))}
+                    {allCattles.length === 0 ? <Text style={{ fontSize: RFPercentage(3), color: Colors.mediumGrey, marginTop: RFPercentage(5) }} >No Cattle Found!</Text> :
+                        allCattles.map((item, index) => (
+                            <Card props={props} item={item} key={index} index={index} />
+                        ))}
                 </View>
             </View>
             <View>

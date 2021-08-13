@@ -61,7 +61,21 @@ function AppDrawer({ navigation }) {
 
             {currentUser === 'admin' ?
                 <>
+                    <Drawer.Item
+                        label="All Users"
+                        icon="user"
+                        onPress={() => {
+                            navigation.navigate("HomeScreen")
+                        }}
+                    />
 
+                    <Drawer.Item
+                        label="My Farms"
+                        icon="warehouse"
+                        onPress={() => {
+                            navigation.navigate("AllFarms")
+                        }}
+                    />
                 </> :
                 <>
                     <Drawer.Item

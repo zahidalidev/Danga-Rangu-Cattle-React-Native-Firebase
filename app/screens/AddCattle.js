@@ -124,8 +124,15 @@ function AddCattle(props) {
 
                     let res = await getFarmById(user.id);
                     let allFarms = [];
+
+                    if (res.length === 0) {
+                        alert("Please Add The Farm First")
+                        props.navigation.navigate("CreateFarm")
+                        return;
+                    }
+
                     for (let i = 0; i < res.length; i++) {
-                        let tempObj = { label: res[i].farmName, value: res[i].farmName };
+                        let tempObj = { label: res[i].farmName, value: res[i].farmName, id: res[i].docId };
                         allFarms.push(tempObj);
                     }
                     setAllFarms(allFarms)
@@ -143,6 +150,10 @@ function AddCattle(props) {
 
     const handleSubmit = async () => {
 
+        let user = await AsyncStorage.getItem('user');
+        user = JSON.parse(user);
+        let selectedFarm = farms.filter(item => item.value === farm);
+
         const body = {
             name,
             stud,
@@ -154,11 +165,10 @@ function AddCattle(props) {
             horn,
             conception,
             raised,
-            farm,
+            farmId: selectedFarm[0].id,
+            userId: user.id,
             birthDate,
         }
-        console.log(body)
-
         if (name === "" ||
             stud === "" ||
             sex === "" ||
@@ -187,12 +197,11 @@ function AddCattle(props) {
             showIndicator(false)
 
             alert("Cattle Added!")
-            // props.navigation.navigate('LoginScreen')
 
         } catch (error) {
-            console.log("Farm Adding Error: ", error);
+            console.log("Cattle Adding Error: ", error);
             showIndicator(false)
-            alert("Farm Adding Error!")
+            alert("Cattle Adding Error!")
         }
     }
 

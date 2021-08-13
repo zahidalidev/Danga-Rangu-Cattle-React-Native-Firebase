@@ -10,6 +10,7 @@ import HomeScreen from "./app/screens/HomeScreen"
 import SearchPostsScreen from './app/screens/SearchPostsScreen';
 import CreateFarm from './app/screens/CreateFarm';
 import AddCattle from './app/screens/AddCattle';
+import CattleDetailsScreen from './app/screens/CattleDetailsScreen';
 
 // components
 import AppDrawer from './app/components/AppDrawer';
@@ -33,6 +34,7 @@ export default function App() {
     <Stack.Screen name="CreateFarm" component={CreateFarm} />
     <Stack.Screen name="SearchPostsScreen" component={SearchPostsScreen} />
     <Stack.Screen name="AddCattle" component={AddCattle} />
+    <Stack.Screen name="CattleDetailsScreen" component={CattleDetailsScreen} />
   </Drawer.Navigator>
 
   return (

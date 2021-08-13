@@ -7,7 +7,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { Restart } from "fiction-expo-restart"
 
 // components
-import { GetAllBlogs } from "../services/BlogServices";
 import Card from '../components/Card';
 
 // images
@@ -17,29 +16,38 @@ import logo from "../../assets/images/logo.png"
 import Colors from "../config/Colors"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingModal from '../components/common/LoadingModal';
+import { getCattleById, getCattleRef } from '../services/CattleServices';
 
 const width = Dimensions.get('window').width
 
 function HomeScreen(props) {
 
-    let [allPosts, setAllPosts] = useState([])
-    let [activityIndic, setActivityIndic] = useState()
+    let [allCattles, setAllCattles] = useState([])
+    let [activityIndic, setActivityIndic] = useState(false)
     let [searchValue, setSearchValue] = useState()
 
-    const getPosts = async () => {
+
+    const getCattles = async () => {
         try {
-            setActivityIndic(true)
-            const data = await GetAllBlogs()
-            setAllPosts(data)
-            setActivityIndic(false)
+            let user = await AsyncStorage.getItem("user");
+            user = JSON.parse(user);
+
+            const farmRef = getCattleRef();
+            farmRef.onSnapshot(querySnapshot => {
+                querySnapshot.docChanges().forEach(async (change) => {
+
+                    let res = await getCattleById(user.id);
+                    setAllCattles(res)
+                })
+            })
+
         } catch (error) {
-            console.log("Getting posts error")
+            console.log("getting cattles error: ", error)
         }
-        setActivityIndic(false)
     }
 
     useEffect(() => {
-        getPosts()
+        getCattles()
     }, [])
 
     const handleSearch = () => {
@@ -83,7 +91,7 @@ function HomeScreen(props) {
             <View style={styles.container}>
                 {/* Bottom Contaienr */}
                 <View style={{ marginBottom: RFPercentage(4), flexDirection: 'column', backgroundColor: Colors.white, width: "100%", flex: 1.8, alignItems: 'center', justifyContent: 'center' }} >
-                    {allPosts.map((item, index) => (
+                    {allCattles.map((item, index) => (
                         <Card props={props} item={item} key={index} index={index} />
                     ))}
                 </View>

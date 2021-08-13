@@ -21,9 +21,34 @@ export const PostCattle = async (body, uri) => {
     return true;
 }
 
+export const getCattleRef = () => {
+    return cattleRef;
+}
 
+export const getCattleById = async (userId) => {
+    const snapshot = await cattleRef.where('userId', '==', userId).get();
+    if (snapshot.empty) {
+        return false;
+    }
 
+    let res = []
+    snapshot.forEach(doc => {
+        let tempRes = doc.data()
+        tempRes.docId = doc.id
+        res.push(tempRes)
+    });
 
+    return res;
+}
+
+export const removeCattle = async (id) => {
+    try {
+        await cattleRef.doc(id).delete();
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
 
 
 const uploadImage = async (uri) => {

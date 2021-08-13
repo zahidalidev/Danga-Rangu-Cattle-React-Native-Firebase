@@ -20,3 +20,23 @@ export const AddFarm = async (body) => {
     await farmRef.add(body);
     return true;
 }
+
+export const getFarmRef = () => {
+    return farmRef;
+}
+
+export const getFarmById = async (userId) => {
+    const snapshot = await farmRef.where('userId', '==', userId).get();
+    if (snapshot.empty) {
+        return false;
+    }
+
+    let res = []
+    snapshot.forEach(doc => {
+        let tempRes = doc.data()
+        tempRes.docId = doc.id
+        res.push(tempRes)
+    });
+
+    return res;
+}

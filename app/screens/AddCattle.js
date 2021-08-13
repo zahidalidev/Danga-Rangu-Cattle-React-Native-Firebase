@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ReactNativeCrossPicker from "react-native-cross-picker"
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as ImagePicker from 'expo-image-picker';
 
 // components
 import AppTextInput from "../components/common/AppTextInput"
@@ -13,7 +14,8 @@ import LoadingModal from "../components/common/LoadingModal"
 import MyAppBar from "../components/common/MyAppBar";
 
 // services
-import { AddFarm } from '../services/FarmServices';
+import { getFarmById, getFarmRef } from '../services/FarmServices';
+import { PostCattle } from '../services/CattleServices';
 
 // config
 import Colors from '../config/Colors';
@@ -34,6 +36,7 @@ function AddCattle(props) {
     const [raised, setRaised] = useState('');
     const [farm, setFarm] = useState('');
     const [birthDate, setBirthDate] = useState('');
+    const [cattleImage, setCattleImage] = useState('');
 
     const studs = [
         { label: "Yes", value: "Yes" },
@@ -91,7 +94,7 @@ function AddCattle(props) {
         { label: "No", value: "No" },
     ];
 
-    const farms = [];
+    const [farms, setAllFarms] = useState([]);
 
     const handleConfirm = (date) => {
         let dat = new Date(date)
@@ -108,32 +111,82 @@ function AddCattle(props) {
         />
     }
 
+
+
+    const getFarms = async () => {
+        try {
+            let user = await AsyncStorage.getItem("user");
+            user = JSON.parse(user);
+
+            const farmRef = getFarmRef();
+            farmRef.onSnapshot(querySnapshot => {
+                querySnapshot.docChanges().forEach(async (change) => {
+
+                    let res = await getFarmById(user.id);
+                    let allFarms = [];
+                    for (let i = 0; i < res.length; i++) {
+                        let tempObj = { label: res[i].farmName, value: res[i].farmName };
+                        allFarms.push(tempObj);
+                    }
+                    setAllFarms(allFarms)
+                })
+            })
+
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        getFarms();
+    }, [])
+
     const handleSubmit = async () => {
-        const farmName = feilds[0].value.trim();
-        const farmAddress = feilds[1].value.trim();
-        const farmContactNumber = feilds[2].value.trim();
-        let user = await AsyncStorage.getItem('user');
-        user = JSON.parse(user);
 
         const body = {
-            farmName,
-            farmAddress,
-            farmContactNumber,
-            userId: user.id
+            name,
+            stud,
+            sex,
+            status,
+            breed,
+            breedComment,
+            cattleColour,
+            horn,
+            conception,
+            raised,
+            farm,
+            birthDate,
+        }
+        console.log(body)
+
+        if (name === "" ||
+            stud === "" ||
+            sex === "" ||
+            status === "" ||
+            breed === "" ||
+            breedComment === "" ||
+            cattleColour === "" ||
+            horn === "" ||
+            conception === "" ||
+            raised === "" ||
+            farm === "" ||
+            birthDate === "") {
+            alert("Please Fill all the feilds!");
+            return;
         }
 
         try {
             showIndicator(true)
 
-            const res = await AddFarm(body);
+            const res = await PostCattle(body, cattleImage);
             if (!res) {
                 showIndicator(false)
-                alert("Farm with the same name already exist!")
+                alert("Something Wen Wrong!")
                 return;
             }
             showIndicator(false)
 
-            alert("Farm Added!")
+            alert("Cattle Added!")
             // props.navigation.navigate('LoginScreen')
 
         } catch (error) {
@@ -144,7 +197,30 @@ function AddCattle(props) {
     }
 
 
+    const uploadImages = async () => {
+        try {
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            let permissionResult = await ImagePicker.getMediaLibraryPermissionsAsync();
 
+            if (permissionResult.granted === false) {
+                alert("Permission to access camera roll is required!");
+                return;
+            }
+
+            let pickerResult = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                quality: 0.6
+            });
+
+            const { uri } = pickerResult;
+
+            setCattleImage(uri)
+
+        } catch (error) {
+            console.log("Image selection error: ", error);
+            alert("Image not selected");
+        }
+    }
 
     return (
         <View style={{ flex: 1, width: "100%" }} >
@@ -291,6 +367,16 @@ function AddCattle(props) {
                             placeholder="Select Farm"
                             modalMarginTop={"80%"} // popup model margin from the top 
                         />
+
+                        <View style={{ marginTop: RFPercentage(3), justifyContent: 'center', width: "100%", alignItems: "center" }} >
+                            <TouchableOpacity onPress={() => uploadImages('cnicBack')} activeOpacity={0.6} style={{ padding: RFPercentage(2), justifyContent: "center", alignItems: 'center', width: RFPercentage(33), height: RFPercentage(22), borderWidth: 1, borderColor: Colors.mediumGrey, borderRadius: 10 }} >
+                                {cattleImage ?
+                                    <Image resizeMode="contain" width={RFPercentage(20)} height={RFPercentage(20)} style={{ width: RFPercentage(33), height: RFPercentage(20), borderRadius: 10 }} source={{ uri: cattleImage }} /> :
+                                    <Text style={{ fontSize: RFPercentage(2.6), color: Colors.grey }} >Upload Cattle Picture</Text>
+                                }
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
 
                     {/* Login button */}

@@ -41,6 +41,22 @@ export const getCattleById = async (userId) => {
     return res;
 }
 
+export const getCattleByFarm = async (userId, farmId) => {
+    const snapshot = await cattleRef.where('userId', '==', userId).where("farmId", "==", farmId).get();
+    if (snapshot.empty) {
+        return false;
+    }
+
+    let res = []
+    snapshot.forEach(doc => {
+        let tempRes = doc.data()
+        tempRes.docId = doc.id
+        res.push(tempRes)
+    });
+
+    return res;
+}
+
 export const removeCattle = async (id) => {
     try {
         await cattleRef.doc(id).delete();

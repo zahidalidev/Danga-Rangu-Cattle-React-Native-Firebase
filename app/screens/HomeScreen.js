@@ -51,7 +51,7 @@ function HomeScreen(props) {
     }, [])
 
     const handleSearch = () => {
-        props.navigation.navigate('SearchPostsScreen', { filterProducts: allPosts })
+        props.navigation.navigate('SearchPostsScreen', { filterProducts: allCattles })
     }
 
     return (

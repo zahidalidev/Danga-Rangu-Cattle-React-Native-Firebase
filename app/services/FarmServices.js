@@ -40,3 +40,12 @@ export const getFarmById = async (userId) => {
 
     return res;
 }
+
+export const removeFarm = async (id) => {
+    try {
+        await farmRef.doc(id).delete();
+        return true;
+    } catch (error) {
+        return false;
+    }
+};

@@ -30,7 +30,7 @@ function SearchPostsScreen(props) {
 
     const handleSearch = () => {
         const tempProducts = [...oldProducts];
-        const searhedProducts = tempProducts.filter(item => item.title.toLowerCase().search(searchValue.toLowerCase()) >= 0)
+        const searhedProducts = tempProducts.filter(item => item.name.toLowerCase().search(searchValue.toLowerCase()) >= 0)
         setProducts(searhedProducts)
     }
 

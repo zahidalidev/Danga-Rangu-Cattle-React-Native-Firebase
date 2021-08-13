@@ -59,8 +59,6 @@ function AppDrawer({ navigation }) {
 
             <Divider />
 
-
-
             {currentUser === 'admin' ?
                 <>
 
@@ -70,7 +68,7 @@ function AppDrawer({ navigation }) {
                         label="All Cattles"
                         icon="cow"
                         onPress={() => {
-                            navigation.navigate(currentUser === 'manager' ? 'ManagerDashboard' : (currentUser === 'admin' ? 'AdminDashboard' : 'UserDashboard'))
+                            navigation.navigate("HomeScreen")
                         }}
                     />
 
@@ -78,7 +76,7 @@ function AppDrawer({ navigation }) {
                         label="My Farms"
                         icon="warehouse"
                         onPress={() => {
-                            navigation.navigate(currentUser === 'manager' ? 'ManagerDashboard' : (currentUser === 'admin' ? 'AdminDashboard' : 'UserDashboard'))
+                            navigation.navigate("AllFarms")
                         }}
                     />
 

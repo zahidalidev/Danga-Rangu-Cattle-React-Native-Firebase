@@ -13,7 +13,7 @@ function MyAppBar({ onNavigation, navigation, title, menu = true, backAction = f
             <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
             <Appbar style={{ backgroundColor: Colors.primary, marginTop: Constants.statusBarHeight }} >
                 {menu ? <Appbar.Action color={Colors.white} icon="menu" onPress={() => onNavigation.openDrawer()} /> : null}
-                {backAction ? <Appbar.BackAction color={Colors.white} onPress={() => onNavigation.navigate(backAction)} /> : null}
+                {backAction ? <Appbar.BackAction color={Colors.white} onPress={() => onNavigation.navigate(navigation)} /> : null}
                 <View style={{ maxWidth: "80%", justifyContent: 'center', alignItems: 'center', flex: 1 }} >
                     <Text style={{ color: Colors.white, fontSize: RFPercentage(2.7) }} >{title}</Text>
                 </View>
